@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:insert="~{layout :: base(~{::title}, ~{::body})}">
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
@@ -12,8 +12,6 @@
 
     <h1>EMPRESA CL3</h1>
     <p></p>
-    <footer>
-        Copyright © <span th:text="${year}"></span>
-    </footer>
+    
 </body>
 </html>
