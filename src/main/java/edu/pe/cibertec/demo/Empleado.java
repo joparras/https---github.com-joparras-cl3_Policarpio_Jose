@@ -3,7 +3,7 @@ package edu.pe.cibertec.demo;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import jakarta.persistence.Column;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,17 +25,17 @@ public class Empleado {
     String puesto;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name ="fechaRegistro", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+
     Date fechaRegistro; 
 
     Empleado(){}
 
-    Empleado(String nombre, String apellido, BigDecimal salario, String puesto, Date fechaRegistro ) {
+    Empleado(String nombre, String apellido, BigDecimal salario, String puesto) {
     this.nombre = nombre;
     this.apellido = apellido;
     this.salario = salario;
     this.puesto = puesto;
-    this.fechaRegistro = fechaRegistro;
+    this.fechaRegistro = new Date();
     }
    
     public Integer getId() {

@@ -9,16 +9,18 @@
 </head>
 <body>
     <div th:fragment="header">
-        <a th:href="@{/}">CL3</a>
-        <a th:href="@{/nosotros}">Nosotros</a>
+        <a th:href="@{/}">Inicio</a>
+        <a th:href="@{/empleados}">Nosotros</a>
+    
     </div>
     <div th:fragment="footer">
         <footer>
             Copyright © <span th:text="${year}"></span>
         </footer>
     </div>
+    <br><br>
     <div th:fragment="publicidad">
-        <p>Accede a descuentos de OpenEnglish.com!</p>
+        <p>CL3 EMPRESA DE TI ACCEDE AHORA!</p>
     </div>
 </body>
 </html>
