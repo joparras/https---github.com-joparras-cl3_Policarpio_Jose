@@ -4,6 +4,8 @@ package edu.pe.cibertec.demo;
 import java.util.List;
 import java.util.Optional;
 
+import javax.sql.DataSource;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,10 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class EmpleadoController {
     
     EmpleadoRepository empleadoRepository;
+     DataSource dataSource;
     
     public EmpleadoController(EmpleadoRepository empleadoRepository){
         this.empleadoRepository = empleadoRepository;
+      
     }
+
     @GetMapping
     public String list(Model modelo){
         List<Empleado> empleados = empleadoRepository.findAll();
@@ -27,12 +32,14 @@ public class EmpleadoController {
 
         return "empleados/list";
    }
+
    @GetMapping("create")
    public String showCreateForm(Model model) {
        EmpleadoDto empleadoDto = new EmpleadoDto();
        model.addAttribute("empleadoForm", empleadoDto);
        return "empleados/create";
    }
+
    @PostMapping
     public String create(EmpleadoDto empleadoDto) {
     
@@ -47,6 +54,7 @@ public class EmpleadoController {
     
     }
 
+
     @GetMapping("/{id}")
     public String detail(@PathVariable Integer id, Model model) {
         Optional<Empleado> empleadoOptional = empleadoRepository.findById(id);
@@ -58,6 +66,7 @@ public class EmpleadoController {
         model.addAttribute("empleado", empleado);
         return "empleados/detail";
     }
+
     @GetMapping("/{id}/edit")
     public String showEditForm(@PathVariable Integer id, Model model) {
         Optional<Empleado> empleadoOptional = empleadoRepository.findById(id);
@@ -69,6 +78,7 @@ public class EmpleadoController {
         return "empleados/edit"; 
     }  
     
+
     @PostMapping("/{id}")
     public String edit(@PathVariable Integer id, Empleado empleadoDataForm) {
         Optional<Empleado> empleadoOptional = empleadoRepository.findById(id);
@@ -84,6 +94,7 @@ public class EmpleadoController {
 
         return "redirect:/empleados";
     } 
+    
     @PostMapping("/{id}/delete")
     public String delete(@PathVariable Integer id) {
         empleadoRepository.deleteById(id);
