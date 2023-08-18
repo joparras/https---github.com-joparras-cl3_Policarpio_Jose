@@ -1,17 +1,33 @@
 package edu.pe.cibertec.demo;
 
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.sql.DataSource;
 
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import jakarta.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
 
 @Controller
 @RequestMapping("empleados")
@@ -100,5 +116,31 @@ public class EmpleadoController {
         empleadoRepository.deleteById(id);
         return "redirect:/empleados"; 
 
+    }
+
+    @GetMapping("report")
+    public void downloadReport(HttpServletResponse response) throws SQLException {
+    try {
+            InputStream inputStream = new ClassPathResource("reports/CL3.jasper").getInputStream();
+            JasperReport report = (JasperReport) JRLoader.loadObject(inputStream);
+
+
+            Connection connection = dataSource.getConnection();
+
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("nombreEmpresa", "CL3");
+            parameters.put("descargadoPor", "Jose Policarpio");
+
+             JasperPrint jasperPrint = JasperFillManager.fillReport(report, parameters, connection);
+            connection.close();
+
+            response.setContentType("application/pdf");
+            OutputStream outputStream =  response.getOutputStream();
+            JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
+
+          }catch( IOException | JRException e) {
+
+            e.printStackTrace();
+        }
     }
 }   
